@@ -29,5 +29,5 @@ urlpatterns = [
   url(r'^contact/$', contact_page),
   url(r'^admin/', admin.site.urls),
   url(r'^login/$', login_page),
-  url(r'^sign_up/$', register_page)
+  url(r'^register/$', register_page)
 ]

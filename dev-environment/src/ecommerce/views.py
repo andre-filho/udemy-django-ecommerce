@@ -1,15 +1,19 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 
-from .forms import ContactForm, LoginForm
+from .forms import ContactForm, LoginForm, RegisterForm
 
 def home_page(request):
-    context = {
-        "title": "home home_page",
-        "content": "welcome to the home page"
-    }
-    return render(request, 'home_page.html', context)
+  context = {
+      "title": "home home_page",
+      "content": "welcome to the home page"
+  }
+
+  if (request.user.is_authenticated):
+    context["premium_content"] = "that's right modafocka"
+
+  return render(request, 'home_page.html', context)
 
 def about_page(request):
     context = {
@@ -71,11 +75,23 @@ def login_page(request):
 
   return render(request, "auth/login.html", content)
 
+User = get_user_model()
 def register_page(request):
-  form = LoginForm(request.POST or None)
-  if form.is_valid():
-    print(form.cleaned_data)
-  return render(request, "auth/register.html", {})
+  form_class = RegisterForm(request.POST or None)
+
+  content = {
+    "form": form_class
+  }
+
+  if form_class.is_valid():
+    print(form_class.cleaned_data)
+    username = form_class.cleaned_data.get('username')
+    password = form_class.cleaned_data.get('password')
+    email    = form_class.cleaned_data.get('email')
+    new_user = User.objects.create_user(username, email, password)
+    print(new_user)
+
+  return render(request, "auth/register.html", content)
 
 # def home_page_old(request):
 #     html_ = """
