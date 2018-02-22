@@ -21,7 +21,8 @@ from django.contrib import admin
 # from django.urls import path
 from django.conf.urls import url
 
-from .views import home_page, about_page, contact_page,login_page, register_page
+from .views import home_page, about_page, contact_page, login_page, register_page
+from products.views import ProductListView, product_list_view
 
 urlpatterns = [
   # path('', home_page),
@@ -33,7 +34,9 @@ urlpatterns = [
   url(r'^contact/$', contact_page),
   url(r'^admin/', admin.site.urls),
   url(r'^login/$', login_page),
-  url(r'^register/$', register_page)
+  url(r'^register/$', register_page),
+  url(r'^products/$', ProductListView.as_view()),
+  url(r'^products-fbv/$', product_list_view)
 ]
 
 # when debug is turned off in production, also will the static files
