@@ -9,4 +9,9 @@ class Product(models.Model):    # CamelCase modafocka
         max_digits = 20,
         default = 0.99
     )
-    
+
+    def __str__(self):      # python3
+        return self.title
+
+    # def __unicode__(self):    # python2
+    #     return self.title
