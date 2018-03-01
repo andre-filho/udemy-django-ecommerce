@@ -22,13 +22,15 @@ from django.contrib import admin
 from django.conf.urls import url
 
 from .views import home_page, about_page, contact_page, login_page, register_page
-from products.views import ProductListView, product_list_view
+from products.views import ProductListView, product_list_view, ProductDetailView, product_detail_view
 
 urlpatterns = [
   # path('', home_page),
   # path('about/', about_page),
   # path('contact/', contact_page),
   # path('admin/', admin.site.urls),
+
+
   url(r'^$', home_page),
   url(r'^about/$', about_page),
   url(r'^contact/$', contact_page),
@@ -36,7 +38,13 @@ urlpatterns = [
   url(r'^login/$', login_page),
   url(r'^register/$', register_page),
   url(r'^products/$', ProductListView.as_view()),
-  url(r'^products-fbv/$', product_list_view)
+  url(r'^products-fbv/$', product_list_view),
+
+  # (?P<pk>\d+) is a regular expression meant to catch and register the id of the
+  # product at the url
+  # FURTHER READING: http://kirr.co/plqin
+  url(r'^products/(?P<pk>\d+)/$', ProductDetailView.as_view()),
+  url(r'^products-fbv/(?P<pk>\d+)/$', product_detail_view)
 ]
 
 # when debug is turned off in production, also will the static files
